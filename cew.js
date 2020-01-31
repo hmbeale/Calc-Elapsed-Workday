@@ -3,15 +3,6 @@
 //see about conversion getters
 //maybe regex to get rid of colons in file path if using time
 
-const dayStart = new Date();
-dayStart.setHours(8,0,0,0); //start of workday in local time
-const periodStart = new Date('January 10, 20 08:00:00 GMT-05:00'); //since announce
-const workStart = new Date('November 17, 17 08:00:00 GMT-05:00'); //first workday
-
-const dayStop = new Date();
-dayStop.setHours(17,0,0,0); //end of workday in local time
-const workStop = new Date('January 31, 20, 05:00:00 GMT-05:00'); //resignation
-
 const curTime = Date.now();
 
 //takes date objects
@@ -28,7 +19,7 @@ const genStats = (start, stop, cur) => {
     res[1] = Math.round(timeElapsed/timeTotal * 10000 )/100  + '%'; //percent of time elapsed
     res[2] = timeRemaining //remaining ms
     
-    const scaler = timeTotal/108; //divisor determines how many bars there are 
+    const scaler = timeTotal/36; //divisor determines how many bars there are 
     
     for (let i = 0; i< Math.round(timeElapsed/scaler); i++){
         res[0].push('█');
@@ -44,6 +35,15 @@ const genStats = (start, stop, cur) => {
 
 const cur = new Date();
 
+const dayStart = new Date();
+dayStart.setHours(8,0,0,0); //start of workday in local time
+const periodStart = new Date('January 10, 20 08:00:00 GMT-05:00'); //since announce
+const workStart = new Date('November 17, 17 08:00:00 GMT-05:00'); //first workday
+
+const dayStop = new Date();
+dayStop.setHours(17,0,0,0); //end of workday in local time
+const workStop = new Date('January 31, 20, 17:00:00 GMT-05:00'); //resignation
+
 const reportText = genStats(dayStart, dayStop, curTime) + '\n' + 
                    genStats(periodStart, workStop, curTime) + '\n' +
                    genStats(workStart, workStop, curTime) + '\n' + '\n' +
@@ -54,7 +54,7 @@ console.log(reportText);
 //log
 const fs = require('fs');
 
-fs.writeFile('C:/Users/itdbealh/Documents/cewLogs/' + cur.toDateString() + " " + curTime + '.txt', 
+fs.writeFile('/*FILEPATHGOESHERE */' + cur.toDateString() + " " + curTime + '.txt', 
               reportText, function(err) {
     if(err) {
         return console.log(err);
